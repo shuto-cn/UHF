@@ -3,13 +3,15 @@
 ## 说明
 **插件是用于内部项目的，只针对特定的芯片及卡片做了处理，并不具备通用性。**
 
-## 安装方法
+## 安装
 使用 Cordova
-> cordova plugin add https://github.com/shuto-cn/UHF
+<pre>cordova plugin add https://github.com/shuto-cn/UHF</pre>
 
-或使用 Ionic
+使用 Ionic
+<pre>ionic cordova plugin add https://github.com/shuto-cn/UHF</pre>
 
-> ionic cordova plugin add https://github.com/shuto-cn/UHF
+## 示例程序
+https://github.com/shuto-cn/uhf-demo
 
 ## 目前提供的功能
 ### 单次询卡 - 读取卡的 EPC
