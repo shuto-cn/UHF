@@ -7,12 +7,14 @@ import java.util.Map;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.util.Log;
 
 public class Util {
 	public static SoundPool sp;
 	public static Map<Integer, Integer> suondMap;
 	public static Context context;
 	private static int audioCurrentVolume;
+	private static final String TAG = "ZstUHFApi";
 
 	//初始化声音池
 	public static void initSoundPool(Context context, int soundid) {
@@ -63,15 +65,14 @@ public class Util {
 	}
 
 	public static String str2HexStr(String str) {
-		char[] chars = "0123456789ABCDEF".toCharArray();
 		StringBuilder sb = new StringBuilder("");
 		byte[] bs = str.getBytes();
 		int bit;
 		for (int i = 0; i < bs.length; i++) {
 			bit = (bs[i] & 0x0f0) >> 4;
-			sb.append(chars[bit]);
+			sb.append(mChars[bit]);
 			bit = bs[i] & 0x0f;
-			sb.append(chars[bit]);
+			sb.append(mChars[bit]);
 		}
 		return sb.toString();
 	}
@@ -93,7 +94,6 @@ public class Util {
 		}
 		return hs.toUpperCase();
 	}
-
 	// 0 失败 1 成功
 	public static boolean checkSum(String data) {
 		boolean ret = false;
@@ -120,13 +120,12 @@ public class Util {
 
 	public static String hexString2Str(String hexStr) {
 
-		String str = "0123456789ABCDEF";
 		char[] hexs = hexStr.toCharArray();
 		byte[] bytes = new byte[hexStr.length() / 2];
 		int n;
 		for (int i = 0; i < bytes.length; i++) {
-			n = str.indexOf(hexs[2 * i]) * 16;
-			n += str.indexOf(hexs[2 * i + 1]);
+			n = mHexStr.indexOf(hexs[2 * i]) * 16;
+			n += mHexStr.indexOf(hexs[2 * i + 1]);
 			bytes[i] = (byte) (n & 0xff);
 		}
 		return new String(bytes);
@@ -155,7 +154,7 @@ public class Util {
 	}
 
 	public static String toHex(byte b) {
-		return ("" + "0123456789ABCDEF".charAt(0xf & b >> 4) + "0123456789ABCDEF".charAt(b & 0xf));
+		return ("" + mHexStr.charAt(0xf & b >> 4) + mHexStr.charAt(b & 0xf));
 	}
 
 	public static String toString(byte[] bytes, int len) {
@@ -205,5 +204,78 @@ public class Util {
 
 	public static int toInt(byte b) {
 		return (int) b & 0xFF;
+	}
+
+	/**
+	 * 验证数据帧的格式
+	 *
+	 * @param buffer 数据帧
+	 * @param size 数据量
+	 * @return true 格式正确，否则返回 false
+	 */
+	public static boolean isValid(byte[] buffer, int size) {
+		if (buffer.length < size) {
+			Log.e(TAG, "error data size!");
+			return false;
+		}
+		if (size <= 2) {
+			Log.e(TAG, "error data size, too small!");
+			return false;
+		}
+		if (buffer[0] != (byte)0xBB) {
+			Log.e(TAG, "error data Header!");
+			return false;
+		}
+		if (buffer[size-1] != (byte)0x7E) {
+			Log.e(TAG, "error data End!");
+			return false;
+		}
+
+		return checkSum(buffer, size);
+	}
+
+	/**
+	 * 计算校验和(CheckSum)是否正确
+	 *
+	 * @param buffer 数据帧
+	 * @param size 数据量
+	 * @return true 校验正确，否则返回 false
+	 */
+	private static boolean checkSum(byte[] buffer, int size) {
+		// [Header, Data0, Data1, ... CheckSum, End]
+		int checkSumIdx = size-2;
+		byte checkSum = buffer[checkSumIdx];
+		byte checkSum_ = 0;
+		for (int i = 1; i < checkSumIdx; i++) {
+			checkSum_ += buffer[i];
+		}
+		return checkSum_ == checkSum;
+	}
+
+	/**
+	 * 获取一个字（两个字节，前高位，后低位）的数据转为 int
+	 *
+	 * @param arr 需要获取数据的 byte 数组
+	 * @param offset 开始获取的位置
+	 * @return int 类型的数据
+	 */
+	public static int getBytesAsWord(byte[] arr, int offset) {
+		return arr[offset] << 8 & 0xFF00 | arr[offset + 1] & 0xFF;
+	}
+
+	/**
+	 * 字节数组转为16进制表示的字符串
+	 *
+	 * @param bytes 内容
+	 * @return
+	 */
+	public static String bytesToHex(byte[] bytes) {
+		char[] hexChars = new char[bytes.length * 2];
+		for ( int j = 0; j < bytes.length; j++ ) {
+			int v = bytes[j] & 0xFF;
+			hexChars[j * 2] = mChars[v >>> 4];
+			hexChars[j * 2 + 1] = mChars[v & 0x0F];
+		}
+		return new String(hexChars);
 	}
 }

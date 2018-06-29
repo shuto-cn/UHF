@@ -2,32 +2,40 @@ var exec = require('cordova/exec');
 
 var coolMethod = function () {};
 
-coolMethod.readCard = function (arg0, success, error) {
-    exec(success, error, 'UHF', 'readCard', [arg0]);
+coolMethod.readCard = function (arg, success, error) {
+    exec(success, error, 'UHF', 'readCard', [arg]);
 }
 
-coolMethod.searchCard = function (success, error, arg0) {
-    exec(success, error, 'UHF', 'searchCard', [arg0]);
+coolMethod.searchCard = function (success, error) {
+    exec(success, error, 'UHF', 'searchCard', []);
 }
 
-coolMethod.writeCard = function (arg0, success, error) {
-    exec(success, error, 'UHF', 'writeCard', [arg0]);
+coolMethod.startSearchCard = function (success, error) {
+    exec(success, error, 'UHF', 'startSearchCard', []);
 }
 
-coolMethod.getPower = function (success, error, arg0) {
-    exec(success, error, 'UHF', 'getPower', [arg0]);
+coolMethod.stopSearchCard = function (success, error) {
+    exec(success, error, 'UHF', 'stopSearchCard', []);
 }
 
-coolMethod.setPower = function (arg0, success, error) {
-    exec(success, error, 'UHF', 'setPower', [arg0]);
+coolMethod.writeCard = function (arg, success, error) {
+    exec(success, error, 'UHF', 'writeCard', [arg]);
 }
 
-coolMethod.getParam = function (success, error, arg0) {
-    exec(success, error, 'UHF', 'getParam', [arg0]);
+coolMethod.getPower = function (success, error) {
+    exec(success, error, 'UHF', 'getPower', []);
 }
 
-coolMethod.setParam = function (arg0, success, error) {
-    exec(success, error, 'UHF', 'setParam', [arg0]);
+coolMethod.setPower = function (arg, success, error) {
+    exec(success, error, 'UHF', 'setPower', [arg]);
+}
+
+coolMethod.getParam = function (success, error) {
+    exec(success, error, 'UHF', 'getParam', []);
+}
+
+coolMethod.setParam = function (arg, success, error) {
+    exec(success, error, 'UHF', 'setParam', [arg]);
 }
 
 module.exports = coolMethod;

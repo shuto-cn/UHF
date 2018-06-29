@@ -16,6 +16,7 @@ public class ZstUHFApi extends SerialPortManager{
 	private int mGpio_num;
 	private Gpio mGpio = Gpio.getInstance();
 	private byte CMD_HEAD_BB = (byte)0xBB;
+	private byte CMD_SINGLE_INVENTORY = (byte)0x22;//单次轮询
 	private byte CMD_START_INVENTORY = (byte)0x27;//开始多次轮询
 	private byte CMD_STOP_INVENTORY = (byte)0x28;//停止多次轮询
 	private byte CMD_SET_TRANMISSIONPOWER = (byte)0xb6;//设置发射功率
@@ -34,14 +35,17 @@ public class ZstUHFApi extends SerialPortManager{
 	private Context mContext;
 	private ZstCallBackListen mCallback;
 
-	private ZstUHFApi(Context context, ZstCallBackListen callback){
-		mContext = context;
+	private ZstUHFApi(ZstCallBackListen callback){
 		mCallback = callback;
 	}
 
-	public static ZstUHFApi getInstance(Context context, ZstCallBackListen callback){
+	public void setListener(ZstCallBackListen listener) {
+		this.mCallback = listener;
+	}
+
+	public static ZstUHFApi getInstance(ZstCallBackListen callback){
 		if(mZstUHFApi == null){
-			mZstUHFApi = new ZstUHFApi(context, callback);
+			mZstUHFApi = new ZstUHFApi(callback);
 		}
 		return mZstUHFApi;
 	}
@@ -75,7 +79,6 @@ public class ZstUHFApi extends SerialPortManager{
 
 	@Override
 	protected void onDataReceived(byte[] buffer, int size) {
-		// TODO Auto-generated method stub
 		if(mCallback != null){
 			mCallback.onUhfReceived(buffer, size);
 		}
@@ -171,6 +174,17 @@ public class ZstUHFApi extends SerialPortManager{
 					mGpio.set_gpio(1,gpio2);
 			}
 		}
+	}
+
+	/*
+	 * 单次轮询
+	 * @return true 成功<br/>
+	 * 		   false 失败
+	 * */
+	public boolean singleInventory(){
+		int len = 0;
+		byte[] data = null;
+		return sendData(CMD_HEAD_BB, CMD_SINGLE_INVENTORY, len, data);
 	}
 
 	/*

@@ -1,9 +1,9 @@
 {
-  "name": "cordova-plugin-UHF",
+  "name": "cordova-plugin-uhf",
   "version": "0.0.1",
   "description": "",
   "cordova": {
-    "id": "cordova-plugin-UHF",
+    "id": "cordova-plugin-uhf",
     "platforms": [
       "android"
     ]

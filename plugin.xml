@@ -1,34 +1,33 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-UHF"
-    version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0">
-    <name>UHF</name>
-    <js-module name="cordova-plugin-UHF" src="www/cordova-plugin-UHF.js">
-        <clobbers target="cordova.plugins.UHF" />
+<plugin id="cordova-plugin-uhf" version="0.0.1"
+    xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://apache.org/cordova/ns/plugins/1.0">
+    <name>Cordova UHF Plugin</name>
+    <js-module name="cordova-plugin-uhf" src="www/cordova-plugin-uhf.js">
+        <clobbers target="cordova.plugin.uhf" />
     </js-module>
     <platform name="android">
-
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="UHF">
-                <param name="android-package" value="cordova.plugin.UHF.UHF" />
+                <param name="android-package" value="cordova.plugin.uhf.UHF" />
             </feature>
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"></config-file>
-        <source-file src="src/android/UHF.java"
-            target-dir="src/cordova/plugin/cordova-plugin-UHF" />
-        <source-file src="src/android/EPC.java"
-            target-dir="src/cordova/plugin/cordova-plugin-UHF" />
-        <source-file src="src/android/Gpio.java"
-            target-dir="src/cordova/plugin/cordova-plugin-UHF" />
-        <source-file src="src/android/SerialPort.java"
-            target-dir="src/cordova/plugin/cordova-plugin-UHF" />
-        <source-file src="src/android/SerialPortManager.java"
-            target-dir="src/cordova/plugin/cordova-plugin-UHF" />
-        <source-file src="src/android/Util.java"
-            target-dir="src/cordova/plugin/cordova-plugin-UHF" />
-        <source-file src="src/android/ZstCallBackListen.java"
-            target-dir="src/cordova/plugin/cordova-plugin-UHF" />
-        <source-file src="src/android/ZstUHFApi.java"
-            target-dir="src/cordova/plugin/cordova-plugin-UHF" />
+        <source-file src="src/android/cordova/plugin/uhf/UHF.java"
+            target-dir="src/cordova/plugin/uhf" />
+        <source-file src="src/android/android/serialport/SerialPort.java"
+            target-dir="src/android/serialport" />
+        <source-file src="src/android/android/serialport/SerialPortManager.java"
+            target-dir="src/android/serialport" />
+        <source-file src="src/android/com/uhf/api/EPC.java"
+            target-dir="src/com/uhf/api" />
+        <source-file src="src/android/com/uhf/api/Util.java"
+            target-dir="src/com/uhf/api" />
+        <source-file src="src/android/com/zistone/gpio/Gpio.java"
+            target-dir="src/com/zistone/gpio" />
+        <source-file src="src/android/com/zistone/uhf/ZstCallBackListen.java"
+            target-dir="src/com/zistone/uhf" />
+        <source-file src="src/android/com/zistone/uhf/ZstUHFApi.java"
+            target-dir="src/com/zistone/uhf" />
 
 
         <resource-file src="src/android/libs/armeabi/libgpio.so"

@@ -32,7 +32,7 @@ import android.preference.ListPreference;
 import android.util.Log;
 
 public abstract class SerialPortManager{
-	private static final String TAG = "ZstUHFApi->SerialPortManager";
+	private static final String TAG = "Zst->SerialPortManager";
 	private Context mContext;
 	private SerialPort mSerialPort;
 	protected OutputStream mOutputStream;
@@ -77,18 +77,6 @@ public abstract class SerialPortManager{
 		}
 	}
 
-	private void DisplayError(int resourceId) {
-//		AlertDialog.Builder b = new AlertDialog.Builder(mContext);
-//		b.setTitle("Error");
-//		b.setMessage(resourceId);
-//		b.setPositiveButton("OK", new OnClickListener() {
-//			public void onClick(DialogInterface dialog, int which) {
-//				closeSerialPort();
-//			}
-//		});
-//		b.show();
-	}
-
 	public SerialPortManager() {
 	}
 
@@ -107,13 +95,10 @@ public abstract class SerialPortManager{
 			}
 			else return RET_DEVICE_OPENED;
 		} catch (SecurityException e) {
-//			DisplayError(R.string.error_security);
 			return RET_NO_PRTMISSIONS;
 		} catch (IOException e) {
-//			DisplayError(R.string.error_unknown);
 			return RET_ERROR_UNKNOW;
 		} catch (InvalidParameterException e) {
-//			DisplayError(R.string.error_configuration);
 			return RET_ERROR_CONFIG;
 		}
 		return RET_ERROR_UNKNOW;

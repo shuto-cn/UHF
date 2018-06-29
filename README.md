@@ -1,27 +1,106 @@
-# UHF
-# cordova-plugin-UHF
+# 超调频 RFID 卡读写的 Cordova 插件
+
+##说明
+**插件是用于内部项目的，只针对特定的芯片及卡片做了处理，并不具备通用性。**
 
 ## 安装方法
-> cordova plugin add https://github.com/langxiankui/UHF
+使用 Cordova
+> cordova plugin add https://github.com/shuto-cn/UHF
 
-## function:
-> cordova.plugins.UHF.readCard(obj, successCallBack, errorCallback);    
->> 读卡  obj = {site: int}    site:区域 1==EPC 3==USER
+或使用 Ionic
 
-> cordova.plugins.UHF.searchCard(successCallBack, errorCallback);      
->> 寻卡  success中返回所找到card的epc
- 
-> cordova.plugins.UHF.writeCard(obj, successCallBack, errorCallback);   
->> 写卡  obj = {data: String, site: int}   data:数据 只支持键盘上不用输入法时可输入的东西
- 
-> cordova.plugins.UHF.setPower(int, successCallBack, errorCallback);    
->> 设置功率 int = 功率 应为大于14并小于27的整数
- 
-> cordova.plugins.UHF.getPower(successCallBack, errorCallback);         
->> 获取功率 success中返回当前所感应卡的功率
- 
-> cordova.plugins.UHF.getParam(successCallBack, errorCallback);        
->> 获取阈值
+> ionic cordova plugin add https://github.com/shuto-cn/UHF
 
-> cordova.plugins.UHF.setParam(int, successCallBack, errorCallback);   
->> 设置阈值
+## 目前提供的功能
+### 单次询卡 - 读取卡的 EPC
+* 调用：
+<pre>cordova.plugins.uhf.searchCard(successCallBack, errorCallback);</pre>
+* 参数：
+* 返回值：
+EPC数组，因为可能读到多个。<pre>["30396062C3AE88C00021E2BC"]</pre>
+
+### 开始多次询卡 - 读取卡的 EPC
+* 调用：
+<pre>cordova.plugins.uhf.startSearchCard(successCallBack, errorCallback);</pre>
+* 参数：
+* 返回值：
+EPC数组，因为可能读到多个。<pre>["30396062C3AE88C00021E2BC"]</pre>
+ 
+### 停止多次询卡
+* 调用：
+<pre>cordova.plugins.uhf.stopSearchCard(successCallBack, errorCallback);</pre>
+* 参数：
+* 返回值：
+ 
+### 写卡
+* 调用：
+<pre>cordova.plugins.uhf.writeCard(message, successCallBack, errorCallback);</pre>
+* 参数：
+<pre>
+{
+  site: 3, // 写入区域
+  addr: 0, // 起始地址偏移
+  data: "内容" // 写入数据
+}
+</pre>
+**TODO: 补充各信息的解释**
+
+* 返回值：
+EPC数组，因为可能读到多个。<pre>["30396062C3AE88C00021E2BC"]</pre>
+
+### 读卡
+* 调用：
+<pre>cordova.plugins.uhf.readCard(message, successCallBack, errorCallback);</pre>
+* 参数：
+<pre>
+{
+  site: 3, // 写入区域
+  addr: 0, // 起始地址偏移
+}
+</pre>
+
+* 返回值：
+<pre>{epc:"30396062C3AE88C00021E2BC",data:"内容"}</pre>
+
+### 设置功率
+* 调用：
+<pre>cordova.plugins.uhf.setPower(power, successCallBack, errorCallback);</pre>
+* 参数：
+<pre>
+目前支持的功率值为 15 至 27，超出范围会按最大或最小值处理。
+</pre>
+* 返回值：
+
+### 获取功率
+* 调用：
+<pre>cordova.plugins.uhf.getPower(successCallBack, errorCallback);</pre>
+* 参数：
+* 返回值：
+<pre>
+当前设备的功率值
+</pre>
+
+### 设置解调阈值
+* 调用：
+<pre>cordova.plugins.uhf.setParam(thrd, successCallBack, errorCallback);</pre>
+* 参数：
+<pre>
+信号解调阈值越小能解调的标签返回RSSI越低，但越不稳定，低于一定值完全不能解调；
+相反阈值越大能解调的标签返回信号RSSI越大，距离越近，越稳定。432是推荐的最小值。
+</pre>
+* 返回值：
+**TODO: 设置阈值等多个参数信息**
+
+### 获取解调器参数
+* 调用：
+<pre>cordova.plugins.uhf.getParam(successCallBack, errorCallback);</pre>
+* 参数：
+* 返回值：
+<pre>
+{
+  mixer: 3, // 混频器增益
+  ifAmp: 6, // 中频放大器增益
+  thrd: 432 // 解调阈值
+}
+</pre>
+**TODO: 参数的解释**
