@@ -50,6 +50,7 @@ public class UHF extends CordovaPlugin {
     private MyZstUhfListen listener;
     private byte[] result; // 暂存接收到的数据，主要是因为不是每次接收的都是完整的数据。有时需要经过2次或3次才能接收到完整的数据。
     private boolean start = false; // 是否开始多次轮巡
+    private int siteid;   //将site定义为全局变量
 
     @Override
     protected void pluginInitialize() {
@@ -124,7 +125,7 @@ public class UHF extends CordovaPlugin {
                 case (byte)0x39: // 读标签数据存储区
                     jsonObject = new JSONObject();
                     String epc = this.getEPC(result, 8);
-                    String data = this.getData(result, 20); // 8 + epc byte length
+                    String data = this.getData(result, 20, siteid); // 8 + epc byte length
                     try {
                         jsonObject.put("epc", epc);
                         jsonObject.put("data", data);
@@ -227,7 +228,7 @@ public class UHF extends CordovaPlugin {
      * @param offset 偏移位置
      * @return data 信息
      */
-    private String getData(byte[] buffer, int offset) {
+    private String getData(byte[] buffer, int offset, int site) {
         byte[] data = Arrays.copyOfRange(buffer, offset, buffer.length-2);
         int end = -1;
         for (int i=0; i<data.length; i++) {
@@ -236,10 +237,27 @@ public class UHF extends CordovaPlugin {
                 break;
             }
         }
-        if (end < 0) {
+        //user区时转码
+        if (site == 3){
+            if (end < 0) {
+                return "";
+            }
+            byte[] bs = Arrays.copyOfRange(data, 0, end);
+            String str = new String(bs);
+            return str;
+        } else if (site == 2) {             //TID区转码
+            end = 24;
+            byte[] bs = Arrays.copyOfRange(data, 0, end);
+            String str2 = byte2hex(bs, end);
+            return str2;
+        } else if (site == 1) {             //EPC区转码
+            end = 12;
+            byte[] bs = Arrays.copyOfRange(data, 0, end);
+            String str2 = byte2hex(bs, end);
+            return str2;
+        } else {
             return "";
         }
-        return new String(Arrays.copyOfRange(data, 0, end));
     }
 
     /**
@@ -265,6 +283,24 @@ public class UHF extends CordovaPlugin {
         public void onUhfReceived(byte[] data, int len) {
             onDataReceived(data, len, callbackContext);
         }
+    }
+
+    public static final String byte2hex(byte b[], int size) {
+        if (b == null) {
+            throw new IllegalArgumentException(
+                    "Argument b ( byte array ) is null! ");
+        }
+        String hs = "";
+        String stmp = "";
+        for (int n = 0; n < size; n++) {
+            stmp = Integer.toHexString(b[n] & 0xff);
+            if (stmp.length() == 1) {
+                hs = hs + "0" + stmp;
+            } else {
+                hs = hs + stmp;
+            }
+        }
+        return hs.toUpperCase();
     }
 
 
@@ -363,6 +399,7 @@ public class UHF extends CordovaPlugin {
     private void readCard(JSONArray message, CallbackContext callbackContext) throws JSONException {
         JSONObject obj = message.getJSONObject(0);
         int site = obj.getInt("site");
+        this.siteid = site;
         int addr = obj.getInt("addr");
         if (site == 1) {
             addr = 2;
@@ -370,6 +407,9 @@ public class UHF extends CordovaPlugin {
         } else if (site == 3) {
             addr = 0;
             length = 32;
+        } else if (site == 2) {
+            addr = 0;
+            length = 12;
         }
         mZstUHFApi.readCradTag(Util.hexStr2Str("00000000"), (byte) site, addr, length);
     }
