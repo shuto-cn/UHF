@@ -11,7 +11,6 @@
                 <param name="android-package" value="cordova.plugin.uhf.UHF" />
             </feature>
         </config-file>
-        <config-file parent="/*" target="AndroidManifest.xml"></config-file>
         <source-file src="src/android/cordova/plugin/uhf/UHF.java"
             target-dir="src/cordova/plugin/uhf" />
         <source-file src="src/android/android/serialport/SerialPort.java"
