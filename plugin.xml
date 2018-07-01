@@ -42,6 +42,20 @@
             target="jniLibs/armeabi-v7a/libneo_gpio.so" />
         <resource-file src="src/android/libs/armeabi-v7a/libserial_port.so"
             target="jniLibs/armeabi-v7a/libserial_port.so" />
+        
+        <resource-file src="src/android/libs/armeabi/libgpio.so"
+            target="libs/armeabi/libgpio.so" />
+        <resource-file src="src/android/libs/armeabi/libneo_gpio.so"
+            target="libs/armeabi/libneo_gpio.so" />
+        <resource-file src="src/android/libs/armeabi/libserial_port.so"
+            target="libs/armeabi/libserial_port.so" />
+
+        <resource-file src="src/android/libs/armeabi-v7a/libgpio.so"
+            target="libs/armeabi-v7a/libgpio.so" />
+        <resource-file src="src/android/libs/armeabi-v7a/libneo_gpio.so"
+            target="libs/armeabi-v7a/libneo_gpio.so" />
+        <resource-file src="src/android/libs/armeabi-v7a/libserial_port.so"
+            target="libs/armeabi-v7a/libserial_port.so" />
 
     </platform>
 </plugin>
