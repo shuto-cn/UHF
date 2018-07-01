@@ -223,6 +223,7 @@ public class UHF extends CordovaPlugin {
 
     /**
      * 获取响应帧中的 Data 信息
+     * 因为tid区不可写，因此tid区读取16进制字符串
      *
      * @param buffer 帧数据
      * @param offset 偏移位置
@@ -246,7 +247,7 @@ public class UHF extends CordovaPlugin {
             String str = new String(bs);
             return str;
         } else if (site == 2) {             //TID区转码
-            end = 24;
+            end = 12;
             byte[] bs = Arrays.copyOfRange(data, 0, end);
             String str2 = byte2hex(bs, end);
             return str2;
