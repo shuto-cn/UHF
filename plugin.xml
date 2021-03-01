@@ -1,61 +1,44 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="cordova-plugin-uhf" version="0.0.1"
-    xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://apache.org/cordova/ns/plugins/1.0">
+<plugin id="cordova-plugin-uhf" version="0.0.2"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://apache.org/cordova/ns/plugins/1.0">
     <name>Cordova UHF Plugin</name>
     <js-module name="cordova-plugin-uhf" src="www/cordova-plugin-uhf.js">
-        <clobbers target="cordova.plugin.uhf" />
+        <clobbers target="cordova.plugin.uhf"/>
     </js-module>
     <platform name="android">
         <config-file parent="/*" target="res/xml/config.xml">
             <feature name="UHF">
-                <param name="android-package" value="cordova.plugin.uhf.UHF" />
+                <param name="android-package" value="cordova.plugin.uhf.UHF"/>
             </feature>
         </config-file>
         <source-file src="src/android/cordova/plugin/uhf/UHF.java"
-            target-dir="src/cordova/plugin/uhf" />
-        <source-file src="src/android/android/serialport/SerialPort.java"
-            target-dir="src/android/serialport" />
-        <source-file src="src/android/android/serialport/SerialPortManager.java"
-            target-dir="src/android/serialport" />
-        <source-file src="src/android/com/uhf/api/EPC.java"
-            target-dir="src/com/uhf/api" />
-        <source-file src="src/android/com/uhf/api/Util.java"
-            target-dir="src/com/uhf/api" />
-        <source-file src="src/android/com/zistone/gpio/Gpio.java"
-            target-dir="src/com/zistone/gpio" />
-        <source-file src="src/android/com/zistone/uhf/ZstCallBackListen.java"
-            target-dir="src/com/zistone/uhf" />
-        <source-file src="src/android/com/zistone/uhf/ZstUHFApi.java"
-            target-dir="src/com/zistone/uhf" />
+                     target-dir="src/cordova/plugin/uhf"/>
+        <source-file src="src/android/cordova/plugin/uhf/Util.java"
+                     target-dir="src/cordova/plugin/uhf"/>
+        <source-file src="src/android/uhfcom13_v15.jar" target-dir="libs"/>
+        <source-file src="src/android/SerialPort.jar" target-dir="libs"/>
 
 
-        <resource-file src="src/android/libs/armeabi/libgpio.so"
-            target="jniLibs/armeabi/libgpio.so" />
-        <resource-file src="src/android/libs/armeabi/libneo_gpio.so"
-            target="jniLibs/armeabi/libneo_gpio.so" />
-        <resource-file src="src/android/libs/armeabi/libserial_port.so"
-            target="jniLibs/armeabi/libserial_port.so" />
+        <resource-file src="src/android/libs/armeabi/libdevapi.so"
+                       target="jniLibs/armeabi/libdevapi.so"/>
+        <resource-file src="src/android/libs/armeabi/libirdaSerialPort.so"
+                       target="jniLibs/armeabi/libirdaSerialPort.so"/>
+        <resource-file src="src/android/libs/armeabi/libuhf.so"
+                       target="jniLibs/armeabi/libuhf.so"/>
 
-        <resource-file src="src/android/libs/armeabi-v7a/libgpio.so"
-            target="jniLibs/armeabi-v7a/libgpio.so" />
-        <resource-file src="src/android/libs/armeabi-v7a/libneo_gpio.so"
-            target="jniLibs/armeabi-v7a/libneo_gpio.so" />
-        <resource-file src="src/android/libs/armeabi-v7a/libserial_port.so"
-            target="jniLibs/armeabi-v7a/libserial_port.so" />
-        
-        <resource-file src="src/android/libs/armeabi/libgpio.so"
-            target="libs/armeabi/libgpio.so" />
-        <resource-file src="src/android/libs/armeabi/libneo_gpio.so"
-            target="libs/armeabi/libneo_gpio.so" />
-        <resource-file src="src/android/libs/armeabi/libserial_port.so"
-            target="libs/armeabi/libserial_port.so" />
+        <resource-file src="src/android/libs/armeabi-v7a/libdevapi.so"
+                       target="jniLibs/armeabi-v7a/libdevapi.so"/>
+        <resource-file src="src/android/libs/armeabi-v7a/libirdaSerialPort.so"
+                       target="jniLibs/armeabi-v7a/libirdaSerialPort.so"/>
+        <resource-file src="src/android/libs/armeabi-v7a/libuhf.so"
+                       target="jniLibs/armeabi-v7a/libuhf.so"/>
 
-        <resource-file src="src/android/libs/armeabi-v7a/libgpio.so"
-            target="libs/armeabi-v7a/libgpio.so" />
-        <resource-file src="src/android/libs/armeabi-v7a/libneo_gpio.so"
-            target="libs/armeabi-v7a/libneo_gpio.so" />
-        <resource-file src="src/android/libs/armeabi-v7a/libserial_port.so"
-            target="libs/armeabi-v7a/libserial_port.so" />
+        <resource-file src="src/android/libs/arm64-v8a/libdevapi.so"
+                       target="jniLibs/arm64-v8a/libdevapi.so"/>
+        <resource-file src="src/android/libs/arm64-v8a/libirdaSerialPort.so"
+                       target="jniLibs/arm64-v8a/libirdaSerialPort.so"/>
+        <resource-file src="src/android/libs/arm64-v8a/libuhf.so"
+                       target="jniLibs/arm64-v8a/libuhf.so"/>
 
     </platform>
 </plugin>
