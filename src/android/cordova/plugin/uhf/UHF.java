@@ -163,6 +163,9 @@ public class UHF extends CordovaPlugin {
             callbackContext.error("数据过长");
             return;
         }
+        if (_data.length() < 32 * 4) {
+            _data += "00";
+        }
         byte[] dataBytes = Util.hexStringToBytes(_data);
         boolean writeFlag = false;
         if (dataBytes != null) {

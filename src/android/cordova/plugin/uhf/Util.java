@@ -62,11 +62,11 @@ public class Util {
 		byte[] d = new byte[length];
 		for (int i = 0; i < length; i++) {
 			int pos = i * 2;
-			d[i] = (byte) (charToByte(hexChars[pos]) << 4 | charToByte(hexChars[pos + 1]));
 			// 以0x00为分界线，不读取后面的数据
-			if (d[i] == 00) {
+			if ((byte) (charToByte(hexChars[pos]) << 4 | charToByte(hexChars[pos + 1])) == 00) {
 				break;
 			}
+			d[i] = (byte) (charToByte(hexChars[pos]) << 4 | charToByte(hexChars[pos + 1]));
 		}
 		return d;
 	}
